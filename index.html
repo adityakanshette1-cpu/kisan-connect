@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanConnect - Direct Farm-to-Buyer Supply Chain Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-dark: #1B5E20;
+            --secondary: #81C784;
+            --accent: #FFB300;
+            --dark: #263238;
+            --light: #F4F6F5;
+            --white: #FFFFFF;
+            --gray: #78909C;
+            --border: #CFD8DC;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area i {
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            background: var(--accent);
+            color: var(--dark);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav button {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav button:hover, nav button.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-content h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .stat-card p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin: 0;
+        }
+
+        .hero-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .hero-images img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Cards & Forms */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .card h2 {
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-accent:hover {
+            background: #ffa000;
+        }
+
+        /* Marketplace Grid */
+        .marketplace-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            align-items: center;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #e0e0e0;
+        }
+
+        .product-body {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5srem;
+        }
+
+        .price-tag {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .geotag-badge {
+            background: #E8F5E9;
+            color: var(--primary-dark);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px dashed var(--secondary);
+        }
+
+        .seller-info-box {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+            border-top: 1px solid var(--border);
+            padding-top: 8px;
+        }
+
+        /* Schemes Hub */
+        .scheme-card {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .scheme-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Payment Modal / Page */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-card {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .success-box {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-box i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <i class="fa-solid.fa-seedling fa-solid"></i>
+            <div class="logo-text">
+                <h1>KisanConnect</h1>
+                <span>Karnataka Direct Farm Supply</span>
+            </div>
+        </div>
+        <nav>
+            <button onclick="switchTab('home')" class="active" id="btn-home"><i class="fa-solid fa-house"></i> Home</button>
+            <button onclick="switchTab('farmer')" id="btn-farmer"><i class="fa-solid fa-tractor"></i> Farmer Portal</button>
+            <button onclick="switchTab('buyer')" id="btn-buyer"><i class="fa-solid fa-basket-shopping"></i> Buyer Marketplace</button>
+            <button onclick="switchTab('schemes')" id="btn-schemes"><i class="fa-solid fa-landmark"></i> Schemes Hub</button>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- HOME TAB -->
+        <div id="tab-home" class="tab-content active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h2>Direct Farm-to-Buyer Marketplace for Karnataka</h2>
+                    <p>KisanConnect links farmers directly with bulk buyers, hotels, and retail customers across Karnataka districts. Ensuring transparent pricing starting from ₹25/kg upwards, verified geotagged produce photos, and affordable transport pooling.</p>
+                    <button class="btn btn-accent" onclick="switchTab('buyer')"><i class="fa-solid fa-magnifying-glass"></i> Browse Marketplace</button>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>5 kg</h3>
+                            <p>Minimum Buyer Order</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>₹0</h3>
+                            <p>Platform Fee for Farmers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-images">
+                    <img src="https://images.unsplash.com/photo-1595974482597-4f8c7450c43d?auto=format&fit=crop&w=500&q=80" alt="Fresh Vegetables">
+                    <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=500&q=80" alt="Farming in Karnataka">
+                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=500&q=80" alt="Vegetable Market">
+                    <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=500&q=80" alt="Transport & Logistics">
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fa-solid fa-cogs text-primary"></i> How KisanConnect Works</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                    <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-camera"></i> 1. Geotagged Upload</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">Farmers upload fresh vegetable photos captured with verified GPS coordinates and timestamps.</p>
+                    </div>
+                    <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-indian-rupee-sign"></i> 2. Fair Pricing</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">Farmers set competitive prices starting from ₹20/kg upwards with zero platform commissions.</p>
+                    </div>
+                    <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-map-location-dot"></i> 3. District Filtering</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">Buyers select their Karnataka district, taluk, and village to source hyper-local fresh produce.</p>
+                    </div>
+                    <div style="background: var(--light); padding: 1.5rem; border-radius: 8px;">
+                        <h4 style="color: var(--primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-truck"></i> 4. Transport Pooling</h4>
+                        <p style="font-size: 0.9rem; color: var(--gray);">Shared trucks, small goods vehicles, and door delivery options streamline logistics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FARMER PORTAL TAB -->
+        <div id="tab-farmer" class="tab-content">
+            <div class="card">
+                <h2><i class="fa-solid fa-tractor"></i> Farmer Listing & Geotag Portal</h2>
+                <form id="farmer-form" onsubmit="handleFarmerSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-user"></i> Farmer Name</label>
+                            <input type="text" id="f-name" placeholder="e.g. Basavaraj Patil" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-phone"></i> Mobile Number</label>
+                            <input type="tel" id="f-phone" placeholder="9876543210" pattern="[0-9]{10}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-map"></i> District</label>
+                            <select id="f-district" required onchange="updateTaluks()">
+                                <option value="">Select District</option>
+                                <option value="Kolar">Kolar</option>
+                                <option value="Bengaluru Rural">Bengaluru Rural</option>
+                                <option value="Mysuru">Mysuru</option>
+                                <option value="Belagavi">Belagavi</option>
+                                <option value="Tumakuru">Tumakuru</option>
+                                <option value="Dharwad">Dharwad</option>
+                                <option value="Mandya">Mandya</option>
+                                <option value="Hassan">Hassan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-location-crosshairs"></i> Taluk (TQ) & Village</label>
+                            <input type="text" id="f-location" placeholder="e.g. Srinivasapura TQ, H. Cross Village" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-carrot"></i> Vegetable Name</label>
+                            <input type="text" id="f-veg" placeholder="e.g. Fresh Tomatoes / Green Chillies" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-scale-balanced"></i> Price per kg (₹ Min 20)</label>
+                            <input type="number" id="f-price" min="20" placeholder="e.g. 25" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-boxes-stacked"></i> Available Quantity (kg)</label>
+                            <input type="number" id="f-qty" min="5" placeholder="Minimum 5 kg" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-image"></i> Product Photo URL / Sample Image</label>
+                            <input type="url" id="f-img" placeholder="Paste image URL (or leave empty for default)" value="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="button" class="btn" onclick="captureGeotag()"><i class="fa-solid fa-location-dot"></i> Capture Live Geotag & Time</button>
+                        <div id="geotag-status" style="margin-top: 8px; font-size: 0.9rem; color: var(--primary); font-weight: 600;"></div>
+                    </div>
+
+                    <button type="submit" class="btn btn-accent" style="width: 100%; margin-top: 1rem;"><i class="fa-solid fa-cloud-arrow-up"></i> Publish Verified Listing (Zero Fee)</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- BUYER MARKETPLACE TAB -->
+        <div id="tab-buyer" class="tab-content">
+            <div class="marketplace-filters">
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; margin-bottom: 2px;">Filter by District</label>
+                    <select id="filter-district" onchange="filterProducts()">
+                        <option value="">All Karnataka Districts</option>
+                        <option value="Kolar">Kolar</option>
+                        <option value="Bengaluru Rural">Bengaluru Rural</option>
+                        <option value="Mysuru">Mysuru</option>
+                        <option value="Belagavi">Belagavi</option>
+                        <option value="Tumakuru">Tumakuru</option>
+                        <option value="Dharwad">Dharwad</option>
+                        <option value="Mandya">Mandya</option>
+                        <option value="Hassan">Hassan</option>
+                    </select>
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 0.85rem; margin-bottom: 2px;">Search Produce</label>
+                    <input type="text" id="search-veg" placeholder="Search tomato, potato..." oninput="filterProducts()">
+                </div>
+            </div>
+
+            <div class="products-grid" id="product-container">
+                <!-- Dynamic Products will load here -->
+            </div>
+        </div>
+
+        <!-- SCHEMES HUB TAB -->
+        <div id="tab-schemes" class="tab-content">
+            <div class="card">
+                <h2><i class="fa-solid fa-landmark"></i> Karnataka Government Farmer Schemes</h2>
+                <p style="margin-bottom: 1.5rem; color: var(--gray);">Stay informed with official financial support and procurement schemes explained simply:</p>
+                
+                <div class="scheme-card">
+                    <h3>Raitha Siri Scheme</h3>
+                    <p>Provides <strong>₹10,000 per hectare</strong> by direct benefit transfer (DBT) for farmers cultivating minor millets such as Ragi and Jowar to encourage sustainable nutrition.</p>
+                </div>
+
+                <div class="scheme-card">
+                    <h3>MSP Procurement Support</h3>
+                    <p>Government approved procurement for Kharif crops including sunflower, green gram, and soybean at Minimum Support Price (MSP) with direct payments credited within 3 days.</p>
+                </div>
+
+                <div class="scheme-card">
+                    <h3>Totapuri Mango Price Support</h3>
+                    <p>Special price support and procurement programs facilitating bulk purchase at notified APMC mandis across Kolar and Chikkaballapur regions.</p>
+                </div>
+
+                <div class="scheme-card">
+                    <h3>FRUITS ID Portal Registration</h3>
+                    <p>Unified Farmer Registration (FRUITS) system needed to seamlessly access CM Raitha Vidya Nidhi scholarships, crop loans, and input subsidies.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PAYMENT & CHECKOUT MODAL -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeCheckout()">&times;</span>
+            <div id="checkout-content">
+                <!-- Filled dynamically upon clicking Buy -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample initial mock products
+        let products = [
+            {
+                id: 1,
+                name: "Fresh Red Tomatoes",
+                price: 24,
+                qty: 150,
+                district: "Kolar",
+                location: "Srinivasapura TQ, Hosur Village",
+                farmer: "Rame Gowda",
+                phone: "9844123456",
+                img: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=500&q=80",
+                geotag: "13.1397° N, 77.5971° E (Verified Today, 7:15 AM)"
+            },
+            {
+                id: 2,
+                name: "Organic Green Chillies",
+                price: 35,
+                qty: 80,
+                district: "Bengaluru Rural",
+                location: "Devanahalli TQ, Channarayapatna",
+                farmer: "Munireddy",
+                phone: "9731654321",
+                img: "https://images.unsplash.com/photo-1588854337236-6889d631faa8?auto=format&fit=crop&w=500&q=80",
+                geotag: "13.2456° N, 77.7123° E (Verified Today, 8:30 AM)"
+            },
+            {
+                id: 3,
+                name: "Nattu Potatoes",
+                price: 28,
+                qty: 200,
+                district: "Hassan",
+                location: "Sakleshpur TQ, Estate Hobli",
+                farmer: "Manjunath Swamy",
+                phone: "9448112233",
+                img: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=500&q=80",
+                geotag: "12.9431° N, 75.8012° E (Verified Today, 6:45 AM)"
+            }
+        ];
+
+        let capturedGeo = "13.1397° N, 77.5971° E (Auto-Captured via GPS)";
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+            if(tabId === 'buyer') {
+                renderProducts(products);
+            }
+        }
+
+        function captureGeotag() {
+            const lat = (12.5 + Math.random() * 1.5).toFixed(4);
+            const lon = (75.5 + Math.random() * 2.5).toFixed(4);
+            capturedGeo = `${lat}° N, ${lon}° E (Verified GPS & Timestamp)`;
+            document.getElementById('geotag-status').innerHTML = `<i class="fa-solid fa-circle-check"></i> Geotag Secured: ${capturedGeo}`;
+        }
+
+        function handleFarmerSubmit(event) {
+            event.preventDefault();
+            const newProduct = {
+                id: Date.now(),
+                name: document.getElementById('f-veg').value,
+                price: Number(document.getElementById('f-price').value),
+                qty: Number(document.getElementById('f-qty').value),
+                district: document.getElementById('f-district').value,
+                location: document.getElementById('f-location').value,
+                farmer: document.getElementById('f-name').value,
+                phone: document.getElementById('f-phone').value,
+                img: document.getElementById('f-img').value || "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=500&q=80",
+                geotag: capturedGeo
+            };
+
+            products.unshift(newProduct);
+            alert("Success! Your produce has been published with geotag verification.");
+            document.getElementById('farmer-form').reset();
+            switchTab('buyer');
+        }
+
+        function renderProducts(list) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            if(list.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color: var(--gray); padding: 2rem;">No listings found for this filter.</p>`;
+                return;
+            }
+
+            list.forEach(p => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.img}" class="product-img" alt="${p.name}">
+                        <div class="product-body">
+                            <div>
+                                <div class="product-title">${p.name}</div>
+                                <div class="price-tag">₹${p.price} <span style="font-size:0.85rem; font-weight:normal; color:var(--gray);">/ kg</span></div>
+                                <div class="geotag-badge">
+                                    <i class="fa-solid fa-location-dot"></i> ${p.geotag}
+                                </div>
+                                <div class="seller-info-box">
+                                    <strong><i class="fa-solid fa-user"></i> Seller:</strong> ${p.farmer}<br>
+                                    <strong><i class="fa-solid fa-phone"></i> Phone:</strong> ${p.phone}<br>
+                                    <strong><i class="fa-solid fa-map-pin"></i> Location:</strong> ${p.location}, ${p.district} Dist.<br>
+                                    <strong><i class="fa-solid fa-boxes-stacked"></i> Available:</strong> ${p.qty} kg (Min. 5kg)
+                                </div>
+                            </div>
+                            <button class="btn" onclick="openCheckout(${p.id})"><i class="fa-solid fa-cart-shopping"></i> Order / Buy Now</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterProducts() {
+            const dist = document.getElementById('filter-district').value;
+            const query = document.getElementById('search-veg').value.toLowerCase();
+            
+            const filtered = products.filter(p => {
+                const matchDist = dist === "" || p.district === dist;
+                const matchQuery = p.name.toLowerCase().includes(query) || p.farmer.toLowerCase().includes(query);
+                return matchDist && matchQuery;
+            });
+            renderProducts(filtered);
+        }
+
+        let selectedProduct = null;
+
+        function openCheckout(productId) {
+            selectedProduct = products.find(p => p.id === productId);
+            if(!selectedProduct) return;
+
+            const modal = document.getElementById('checkout-modal');
+            const content = document.getElementById('checkout-content');
+
+            content.innerHTML = `
+                <h2 style="color: var(--primary-dark); margin-bottom: 1rem;"><i class="fa-solid fa-credit-card"></i> Secure Checkout & Payment</h2>
+                <div style="background: var(--light); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="color: var(--primary);">${selectedProduct.name}</h4>
+                    <p><strong>Price:</strong> ₹${selectedProduct.price} per kg</p>
+                    <p><strong>Seller Name:</strong> ${selectedProduct.farmer}</p>
+                    <p><strong>Seller Contact:</strong> <a href="tel:${selectedProduct.phone}" style="color: var(--primary); font-weight: 600;">${selectedProduct.phone}</a></p>
+                    <p><strong>Farm Location:</strong> ${selectedProduct.location}, ${selectedProduct.district} District</p>
+                    <p><strong>Geotag Badge:</strong> ${selectedProduct.geotag}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Order Quantity (Min 5 kg)</label>
+                    <input type="number" id="order-qty" min="5" max="${selectedProduct.qty}" value="10" oninput="updateTotal(${selectedProduct.price})">
+                </div>
+
+                <div class="form-group">
+                    <label>Delivery Option</label>
+                    <select id="delivery-opt" onchange="updateTotal(${selectedProduct.price})">
+                        <option value="30">Shared Truck Pooling (₹30)</option>
+                        <option value="180">Small Goods Vehicle Same-Day (₹180)</option>
+                        <option value="250">Direct Door Delivery (₹250)</option>
+                    </select>
+                </div>
+
+                <div style="background: #E8F5E9; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Produce Cost:</span>
+                        <strong id="subtotal-display">₹${selectedProduct.price * 10}</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span>Delivery Fee:</span>
+                        <strong id="delivery-display">₹30</strong>
+                    </div>
+                    <hr style="border: none; border-top: 1px solid var(--secondary); margin: 8px 0;">
+                    <div style="display: flex; justify-content: space-between; font-size: 1.1rem; color: var(--primary-dark);">
+                        <strong>Total Amount:</strong>
+                        <strong id="total-display">₹${(selectedProduct.price * 10) + 30}</strong>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select>
+                        <option>UPI (Google Pay / PhonePe / Paytm)</option>
+                        <option>Net Banking (SBI / HDFC / ICICI)</option>
+                        <option>Credit / Debit Card</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-accent" style="width: 100%;" onclick="completeOrder()"><i class="fa-solid fa-lock"></i> Pay & Confirm Order</button>
+            `;
+
+            modal.style.display = 'flex';
+        }
+
+        function updateTotal(pricePerKg) {
+            const qty = Number(document.getElementById('order-qty').value) || 5;
+            const deliveryFee = Number(document.getElementById('delivery-opt').value);
+            const subtotal = qty * pricePerKg;
+            const total = subtotal + deliveryFee;
+
+            document.getElementById('subtotal-display').innerText = `₹${subtotal}`;
+            document.getElementById('delivery-display').innerText = `₹${deliveryFee}`;
+            document.getElementById('total-display').innerText = `₹${total}`;
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkout-modal').style.display = 'none';
+        }
+
+        function completeOrder() {
+            const content = document.getElementById('checkout-content');
+            content.innerHTML = `
+                <div class="success-box">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <h2>Order Placed Successfully!</h2>
+                    <p style="color: var(--gray); margin-bottom: 1.5rem;">Seller <strong>${selectedProduct.farmer}</strong> (${selectedProduct.phone}) has been notified of your order and will arrange dispatch as selected.</p>
+                    <button class="btn" onclick="closeCheckout()">Close & Return</button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
